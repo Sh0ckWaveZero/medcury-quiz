@@ -18,16 +18,25 @@ export class UserController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+    return this.userService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() user: User) {
-    return this.userService.update(+id, user);
+    return this.userService.update(id, user);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+    return this.userService.remove(id);
   }
+}
+
+export interface Appointment {
+  id: string;
+  name: string;
+  appointment_date: Array<string>;
+  appointment_time_start: number;
+  appointment_time_end: number;
+  time_slot: number;
 }

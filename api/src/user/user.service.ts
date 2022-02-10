@@ -31,7 +31,7 @@ export class UserService {
     return await this.prisma.user.findMany();
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const user = await this.prisma.user.findUnique({
       where: {
         id,
@@ -43,12 +43,11 @@ export class UserService {
     return user;
   }
 
-  async update(id: number, user: User) {
+  async update(id: string, user: User) {
     try {
       return await this.prisma.user.update({
         data: {
-          ...user,
-          id: undefined,
+          ...user
         },
         where: {
           id,
@@ -65,7 +64,7 @@ export class UserService {
     }
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} user`;
   }
 }

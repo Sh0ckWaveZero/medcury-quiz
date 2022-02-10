@@ -1,17 +1,28 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["mongoDb"]
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:dev.db"
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
   telephone String   @unique
   name      String?
   pin_code  Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Appointment {
+  id                     String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name                   String?
+  appointment_date       String[]
+  appointment_start_time String?
+  appointment_end_time   String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
 }
