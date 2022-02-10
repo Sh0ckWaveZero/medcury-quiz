@@ -26,3 +26,14 @@ model Appointment {
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
 }
+
+model ScheduleAppointment {
+  id                     String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  doctor_schedule_id     String
+  user_id                String
+  appointment_date       DateTime
+  appointment_start_time String
+  appointment_end_time   String
+  created_at             DateTime @default(now())
+  updated_at             DateTime @updatedAt
+}
