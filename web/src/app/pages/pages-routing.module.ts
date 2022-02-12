@@ -3,6 +3,8 @@ import { NgModule } from "@angular/core";
 import { PagesComponent } from "./pages.component";
 import { HomeComponent } from "./home/home.component";
 import { AppointmentComponent } from './appointment/appointment.component';
+import { UserComponent } from "./user/user.component";
+import { DoctorComponent } from "./doctor/doctor.component";
 
 
 const routes: Routes = [
@@ -17,6 +19,14 @@ const routes: Routes = [
       {
         path: "appointment",
         component: AppointmentComponent,
+      },
+      {
+        path: "doctor",
+        component: DoctorComponent,
+      },
+      {
+        path: "user",
+        component: UserComponent,
       },
       {
         path: "",

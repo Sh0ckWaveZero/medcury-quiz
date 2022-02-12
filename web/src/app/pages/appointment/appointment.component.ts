@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 // import { ConfirmationService, MessageService, PrimeNGConfig } from 'primeng/api';
@@ -26,6 +26,7 @@ export class AppointmentComponent implements OnInit {
   statuses!: any
 
   picker: any
+
 
   dateRange = new FormGroup({
     start: new FormControl(),
@@ -74,6 +75,7 @@ export class AppointmentComponent implements OnInit {
     this.dateRange.reset()
     this.status.reset()
     // this.search()
+
   }
 
   saveProduct() { }

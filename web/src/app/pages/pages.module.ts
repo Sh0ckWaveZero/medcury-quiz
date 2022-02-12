@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { PagesComponent } from './pages.component';
-import { PagesRoutingModule } from './pages-routing.module';
 import { SlidemenuComponent } from '../components/slidemenu/slidemenu.component';
 import { HomeComponent } from './home/home.component';
 import { AppointmentComponent } from './appointment/appointment.component';
@@ -20,7 +19,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 
 import localeTh from '@angular/common/locales/th';
 import { MatDialogModule } from '@angular/material/dialog';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { BackendModule } from '../@core/backend/backend.module';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -32,6 +31,11 @@ import { MatButtonModule } from '@angular/material/button'
 
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { UserComponent } from './user/user.component';
+import { DoctorComponent } from './doctor/doctor.component';
+import { PagesRoutingModule } from './pages-routing.module';
+import { MatSliderModule } from '@angular/material/slider';
+import { ReactiveFormsModule } from '@angular/forms';
 
 registerLocaleData(localeTh, 'th');
 
@@ -59,6 +63,7 @@ const materialModule = [
   MatSelectModule,
   MatInputModule,
   MatButtonModule,
+  MatSliderModule,
 ]
 
 @NgModule({
@@ -66,12 +71,15 @@ const materialModule = [
     PagesComponent,
     SlidemenuComponent,
     HomeComponent,
-    AppointmentComponent
+    AppointmentComponent,
+    UserComponent,
+    DoctorComponent,
+
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     PagesRoutingModule,
-    HttpClientModule,
     BackendModule.forRoot(),
     ...materialModule,
     ...primeNgModule,
@@ -83,7 +91,7 @@ const materialModule = [
     MatNativeDateModule,
     { provide: MAT_DATE_LOCALE, useValue: 'th-TH' },
     MessageService,
-    ConfirmationService
+    ConfirmationService,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
