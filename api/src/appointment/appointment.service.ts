@@ -17,8 +17,9 @@ export class AppointmentService {
   }
 
   async findAll(query: any) {
-    console.log(query);
-    let _query = {}
+    let _query: any = {}
+
+    // filter by start date and end date
     if (
       query.startDate !== 'undefined' &&
       query.startDate !== 'undefined'
@@ -27,13 +28,21 @@ export class AppointmentService {
       let end = new Date(query.endDate)
       start.setUTCHours(0, 0, 0, 0);
       end.setUTCHours(23, 59, 59, 999);
-      _query = {
-        appointmentDate: {
-          gte: start,
-          lt: end
-        },
+      _query.appointmentDate = {
+        gte: start,
+        lt: end
       }
     }
+
+    // filter by status
+    if (
+      query.status !== 'null'
+    ) {
+      const status = (query.status.split(','))
+      status.length === 2 ? "" : (_query.isReserve = status[0] === "false" ? false : true)
+    }
+
+    console.log(_query);
     return await this.prisma.appointment.findMany({
       where: _query,
       orderBy: {
