@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["mongoDb"]
@@ -8,32 +11,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  telephone String   @unique
-  name      String?
-  pin_code  Int?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Appointment {
-  id                     String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  name                   String?
-  appointment_date       String[]
-  appointment_start_time String?
-  appointment_end_time   String?
-  createdAt              DateTime @default(now())
-  updatedAt              DateTime @updatedAt
-}
-
-model ScheduleAppointment {
-  id                     String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
-  doctor_schedule_id     String
-  user_id                String
-  appointment_date       DateTime
-  appointment_start_time String
-  appointment_end_time   String
-  created_at             DateTime @default(now())
-  updated_at             DateTime @updatedAt
+  id              String   @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  doctorId        String?
+  appointmentDate DateTime
+  isReserve       Boolean  @default(false)
+  name            String?
+  pinCode         Int?
+  telephone       String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
