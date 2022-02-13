@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AppointmentDatabase } from 'src/app/@core/interfaces/appointment';
 import { UserDatabase } from 'src/app/@core/interfaces/user';
-import * as _ from 'underscore';
+
 
 @Component({
   selector: 'app-appointment',
@@ -91,7 +91,7 @@ export class AppointmentComponent implements OnInit {
     if (!this.submitted && !this.appointment.pinCode) return
 
     this.usertService.getWithFilter(this.appointment.telephone, this.appointment.pinCode).subscribe((user$: any) => {
-      if (_.isEmpty(user$)) {
+      if (user$) {
         this.messageService.add({ severity: 'error', summary: 'ผิดพลาด', detail: 'ไม่พบข้อมูลของคนไข้รายนี้', life: 3000 });
         return
       }
@@ -123,7 +123,7 @@ export class AppointmentComponent implements OnInit {
       accept: () => {
         this.usertService.getWithFilter(appointment.telephone, appointment.pinCode).subscribe((user$: any) => {
 
-          if (_.isEmpty(user$)) {
+          if (user$) {
             this.messageService.add({ severity: 'error', summary: 'ผิดพลาด', detail: 'ไม่พบข้อมูลของคนไข้รายนี้', life: 3000 });
             return
           }
