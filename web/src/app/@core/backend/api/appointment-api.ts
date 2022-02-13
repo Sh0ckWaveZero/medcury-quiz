@@ -10,34 +10,6 @@ export class AppointmentApi {
 
   constructor(private api: HttpService) { }
 
-  list(
-    pageNumber: number = 1,
-    pageSize: number = 10,
-    keyword: string = "",
-    startDate: Date,
-    endDate: Date,
-    countryId: string = "",
-    status: string = "",
-    sortBy: string = "updatedDate",
-    orderBy: string = "DESC"
-  ): any {
-    const params = new HttpParams()
-      .set("orderBy", `${orderBy}`)
-      .set("sortBy", `${sortBy}`)
-      .set("status", `${status}`)
-      .set("countryId", `${countryId}`)
-      .set("endDate", `${endDate}`)
-      .set("startDate", `${startDate}`)
-      .set("keyword", `${keyword}`)
-      .set("pageSize", `${pageSize}`)
-      .set("pageNumber", `${pageNumber}`);
-    return this.api.get(this.apiController, { params }).pipe(
-      map((data: Observable<any>): any => {
-        return { ...data };
-      })
-    );
-  }
-
   get(id: string): Observable<any> {
     return this.api.get(`${this.apiController}/${id}`).pipe(
       map((data) => {
@@ -49,12 +21,14 @@ export class AppointmentApi {
   getList(
     startDate: Date,
     endDate: Date,
-    status: boolean,
+    status: any,
+    doctorId?: any,
   ): Observable<any> {
     const params = new HttpParams()
       .set("startDate", `${startDate}`)
       .set("endDate", `${endDate}`)
       .set("status", `${status}`)
+      .set("doctorId", `${doctorId}`)
     return this.api.get(this.apiController, { params }).pipe(
       map((data) => {
         return data;
@@ -63,14 +37,10 @@ export class AppointmentApi {
   }
 
   delete(id: number): Observable<boolean> {
-    return this.api.delete(`${this.apiController}/${id}`);
+    return this.api.delete(`${this.apiController}/${id}`, { responseType: 'text' });
   }
 
   add(item: any): Observable<any> {
     return this.api.post(this.apiController, item);
-  }
-
-  update(item: any): Observable<any> {
-    return this.api.put(`${this.apiController}/${item.id}`, item);
   }
 }

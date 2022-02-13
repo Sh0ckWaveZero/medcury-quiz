@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { AppointmentDatabase } from 'src/app/@core/interfaces/appointment';
+import { DoctorDatabase } from 'src/app/@core/interfaces/doctor';
+import { Doctor } from '../../@core/interfaces/doctor';
 
 @Component({
   selector: 'app-user',
@@ -8,29 +11,20 @@ import { FormControl } from '@angular/forms';
 })
 export class UserComponent implements OnInit {
   dateRange: any
-
   doctorForm!: FormControl
-
-  bed: any
-
-  doctorList = [
-    { name: "หมอ ก.", code: '001' },
-    { name: "หมอ ข.", code: '002' },
-  ]
+  doctorList: Doctor[] = []
   appointmentList: any
   selectedAppointmentList: any
 
-  constructor() {
+  constructor(
+    private appointmentService: AppointmentDatabase,
+    private doctorService: DoctorDatabase,
+  ) {
     this.doctorForm = new FormControl()
   }
 
   ngOnInit(): void {
-  }
-
-  search() {
-    console.log(this.bed)
-    console.log(this.doctorForm.invalid)
-    console.log(this.doctorForm.value)
+    this.getDoctorInfo()
   }
 
   clear() {
@@ -38,12 +32,35 @@ export class UserComponent implements OnInit {
     this.doctorForm.reset()
   }
 
-  mapDateToThai(date: any) {
-
+  mapDateToThai(date: Date) {
+    const _date = new Date(date)
+    return _date.toLocaleDateString('th-TH', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long'
+    })
   }
 
-  onChange(event: any) {
-    console.log(event)
+  getDoctor(code: string) {
+    return this.doctorList.filter(doctor => doctor.doctorId === code)
+      .map(doctor => doctor.name)[0]
   }
 
+  search() {
+    this.appointmentService.getList(
+      undefined,
+      undefined,
+      null,
+      this.doctorForm.value
+    ).subscribe((data: any) => {
+      this.appointmentList = data
+    })
+  }
+
+  getDoctorInfo() {
+    this.doctorService.list().subscribe((data: any) => {
+      this.doctorList = data
+    })
+  }
 }

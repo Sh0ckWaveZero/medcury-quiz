@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "underscore": "^1.13.2"
+  },
+  "devDependencies": {
+    "@types/underscore": "^1.11.4"
+  }
+}

@@ -24,7 +24,6 @@ export const UserData: CreateUserDto[] = [
     "pinCode": 444444
   }
 ]
-
 @Injectable()
 export class UsersService {
 
@@ -32,7 +31,8 @@ export class UsersService {
     return UserData;
   }
 
-  findOne(telephone: string, pinCode: number) {
+  findByFilter(query: any) {
+    const { telephone, pinCode } = { telephone: query.telephone, pinCode: +query.pinCode }
     return UserData.filter((user: CreateUserDto) => user.telephone === telephone && user.pinCode === pinCode);
   }
 }

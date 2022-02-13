@@ -25,6 +25,10 @@ export class HttpService {
     return this.http.put(`${this.apiUrl}/${endpoint}`, data, options);
   }
 
+  patch(endpoint: string, data: any, options?: any): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${endpoint}`, data, options);
+  }
+
   delete(endpoint: string, options?: any): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${endpoint}`, options);
   }

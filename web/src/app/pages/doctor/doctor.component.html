@@ -1,1 +1,28 @@
-<p>doctor works!</p>
+<p-panel header="สรุปภาพรวมการจองของหมอ" class="h-auto">
+  <p-toast></p-toast>
+  <div class="card p-4">
+    <p-toolbar styleClass="mb-4">
+      <ng-template pTemplate="left">
+        <div class="flex flex-row ...">
+          <div class="grow h-14 ml-3">
+            <mat-form-field appearance="outline" style=" margin-bottom: -1.25em">
+              <mat-label>รายชื่อหมอ</mat-label>
+              <mat-select [formControl]="doctorForm" multiple>
+                <mat-option *ngFor="let doctor of doctorList" [value]="doctor.doctorId">{{doctor.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="grow h-14 ml-3">
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="right">
+        <button pButton pRipple label="ค้นหา" icon="pi pi-search" class="p-button-help m-2" (click)="search()"></button>
+        <button pButton type="button" pRipple label="ล้าง" icon="pi pi-times" class="p-button-warning"
+          (click)="clear()"></button>
+      </ng-template>
+    </p-toolbar>
+    <p-organizationChart [value]="summaryReserve" selectionMode="multiple" ></p-organizationChart>
+  </div>
+</p-panel>

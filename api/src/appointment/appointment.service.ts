@@ -8,7 +8,7 @@ export class AppointmentService {
   constructor(private prisma: PrismaService) { }
 
   async create(data: Appointment) {
-    console.log(data);
+
     return await this.prisma.appointment.create({
       data
     })
@@ -35,14 +35,24 @@ export class AppointmentService {
     }
 
     // filter by status
-    if (
-      query.status !== 'null'
-    ) {
-      const status = (query.status.split(','))
-      status.length === 2 ? "" : (_query.isReserve = status[0] === "false" ? false : true)
+    if (query.status !== 'null') {
+      const isReserve = (query.status.split(','))
+      isReserve.length === 2 ? "" : (_query.isReserve = isReserve[0] === "false" ? false : true)
     }
 
-    console.log(_query);
+    // filter by doctor id
+    if (query.doctorId !== 'null') {
+      const doctorId = (query.doctorId.split(','))
+      if (doctorId.length === 1) {
+        _query.doctorId = {
+          in: doctorId[0]
+        }
+      } else if (doctorId.length > 1) {
+        _query.doctorId = {
+          in: doctorId
+        }
+      }
+    }
     return await this.prisma.appointment.findMany({
       where: _query,
       orderBy: {
@@ -51,15 +61,19 @@ export class AppointmentService {
     })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} appointment`;
-  }
-
-  update(id: number, updateAppointmentDto: UpdateAppointmentDto) {
-    return `This action updates a #${id} appointment`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} appointment`;
+  update(id: string, data: Appointment) {
+    return this.prisma.appointment.update({
+      where: {
+        id: id
+      },
+      data: {
+        isReserve: data.isReserve,
+        doctorId: data.doctorId,
+        appointmentDate: data.appointmentDate,
+        name: data.name,
+        pinCode: data.pinCode,
+        telephone: data.telephone,
+      },
+    })
   }
 }

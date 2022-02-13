@@ -11,30 +11,6 @@ export class AppointmentService extends Appointment {
     super();
   }
 
-  list(
-    pageNumber: number = 1,
-    pageSize: number = 10,
-    keyword: string = "",
-    startDate: Date,
-    endDate: Date,
-    countryId: string = "",
-    status: string = "",
-    sortBy: string = "updatedDate",
-    orderBy: string = "DESC"
-  ): Observable<Appointment[]> {
-    return this.api.list(
-      pageNumber,
-      pageSize,
-      keyword,
-      startDate,
-      endDate,
-      countryId,
-      status,
-      sortBy,
-      orderBy
-    );
-  }
-
   get(id: string): Observable<Appointment> {
     return this.api.get(id);
   }
@@ -42,17 +18,14 @@ export class AppointmentService extends Appointment {
   getList(
     startDate: Date,
     endDate: Date,
-    status: boolean,
+    status: any,
+    doctorId?: any,
   ): Observable<any> {
-    return this.api.getList(startDate, endDate, status);
+    return this.api.getList(startDate, endDate, status,doctorId);
   }
 
   create(item: any): Observable<Appointment> {
     return this.api.add(item);
-  }
-
-  update(item: any): Observable<Appointment> {
-    return this.api.update(item);
   }
 
   delete(id: number): Observable<boolean> {

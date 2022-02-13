@@ -8,7 +8,7 @@
             <mat-form-field appearance="outline" style=" margin-bottom: -1.25em">
               <mat-label>รายชื่อหมอ</mat-label>
               <mat-select [formControl]="doctorForm" multiple>
-                <mat-option *ngFor="let doctor of doctorList" [value]="doctor.code">{{doctor.name}}</mat-option>
+                <mat-option *ngFor="let doctor of doctorList" [value]="doctor">{{doctor.name}}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -25,41 +25,37 @@
     </p-toolbar>
 
     <p-table #dt [value]="appointmentList" [rows]="10" [paginator]="true"
-      [globalFilterFields]="['name','country.name','representative.name','status']" responsiveLayout="scroll"
-      [(selection)]="selectedAppointmentList" [rowHover]="true" dataKey="id"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+      [globalFilterFields]="['doctorId','appointmentDate','name','appointmentDate','telephone','isReserve']"
+      responsiveLayout="scroll" [(selection)]="selectedAppointmentList" [rowHover]="true" dataKey="id"
+      currentPageReportTemplate="รายการที่แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
+      [showCurrentPageReport]="true">
       <ng-template pTemplate="header">
         <tr>
-          <th pSortableColumn="name">Doctor Name <p-sortIcon field="name"></p-sortIcon>
+          <th pSortableColumn="doctorId">ชื่อหมอ <p-sortIcon field="doctorId"></p-sortIcon>
           </th>
-          <th pSortableColumn="price">Appointment Date<p-sortIcon field="price"></p-sortIcon>
+          <th pSortableColumn="appointmentDate">วันที่นัดหมาย <p-sortIcon field="appointmentDate"></p-sortIcon>
           </th>
-          <th pSortableColumn="price">Appointment Time<p-sortIcon field="price"></p-sortIcon>
+          <th pSortableColumn="appointmentDate">เวลานัดหมาย <p-sortIcon field="appointmentDate"></p-sortIcon>
           </th>
-          <th pSortableColumn="category">Category <p-sortIcon field="category"></p-sortIcon>
+          <th pSortableColumn="name">ชื่อคนไข้ <p-sortIcon field="name"></p-sortIcon>
           </th>
-          <th pSortableColumn="rating">Reviews <p-sortIcon field="rating"></p-sortIcon>
+          <th pSortableColumn="telephone">เบอร์โทร <p-sortIcon field="telephone"></p-sortIcon>
           </th>
-          <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon>
+          <th pSortableColumn="isReserve">สถานะ <p-sortIcon field="isReserve"></p-sortIcon>
           </th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-product>
+      <ng-template pTemplate="body" let-appointment>
         <tr>
-          <td>{{product.doctorId}}</td>
-          <td>{{mapDateToThai(product.appointmentDate) }}</td>
-          <td>{{product.appointmentDate | date:'shortTime':'UTC+7':'th'}}</td>
-          <td>{{product.category}}</td>
-          <td>
-          </td>
-          <td><span
-              [class]="'product-badge status-' + (product.isReserve ? product.inventoryStatus.toLowerCase() : '')">{{product.isReserve ? "ถูกจอง" :"ว่าง"}}</span>
+          <td>{{getDoctor(appointment.doctorId)}}</td>
+          <td>{{mapDateToThai(appointment.appointmentDate) }}</td>
+          <td>{{appointment.appointmentDate | date:'shortTime':'UTC+7':'th'}}</td>
+          <td>{{appointment.name}}</td>
+          <td>{{appointment.telephone}}</td>
+          <td><span>{{appointment.isReserve ? "ถูกจอง" :"ว่าง"}}</span>
           </td>
         </tr>
       </ng-template>
     </p-table>
   </div>
-
-  <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
-
 </p-panel>

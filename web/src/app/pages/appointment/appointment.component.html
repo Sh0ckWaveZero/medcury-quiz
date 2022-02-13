@@ -1,4 +1,4 @@
-<p-panel header="ตารางการนัดหมายทั้งหมด">
+<p-panel header="ตารางการนัดหมายทั้งหมด" class="max-h-screen">
   <p-toast></p-toast>
   <div class="card p-4">
     <p-toolbar styleClass="mb-4">
@@ -7,7 +7,7 @@
           <div class="grow h-14">
             <mat-form-field appearance="outline" style=" margin-bottom: -1.25em">
               <mat-label>ช่วงเวลา</mat-label>
-              <mat-date-range-input [formGroup]="dateRange"  [rangePicker]="picker">
+              <mat-date-range-input [formGroup]="dateRange" [rangePicker]="picker">
                 <input matStartDate formControlName="start" placeholder="วันที่เริ่ม">
                 <input matEndDate formControlName="end" placeholder="วันที่สิ้นสุด">
               </mat-date-range-input>
@@ -38,113 +38,71 @@
     </p-toolbar>
 
     <p-table #dt [value]="appointmentList" [rows]="10" [paginator]="true"
-      [globalFilterFields]="['name','country.name','representative.name','status']" responsiveLayout="scroll"
-      [(selection)]="selectedAppointmentList" [rowHover]="true" dataKey="id"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+      [globalFilterFields]="['doctorId','appointmentDate','name','appointmentDate','telephone','isReserve']"
+      responsiveLayout="scroll" [(selection)]="selectedAppointmentList" [rowHover]="true" dataKey="id"
+      currentPageReportTemplate="รายการที่แสดง {first} ถึง {last} จาก {totalRecords} รายการ"
+      [showCurrentPageReport]="true">
       <ng-template pTemplate="header">
         <tr>
-          <th pSortableColumn="name">Doctor Name <p-sortIcon field="name"></p-sortIcon>
+          <th pSortableColumn="doctorId">ชื่อหมอ <p-sortIcon field="doctorId"></p-sortIcon>
           </th>
-          <th pSortableColumn="price">Appointment Date<p-sortIcon field="price"></p-sortIcon>
+          <th pSortableColumn="appointmentDate">วันที่นัดหมาย <p-sortIcon field="appointmentDate"></p-sortIcon>
           </th>
-          <th pSortableColumn="price">Appointment Time<p-sortIcon field="price"></p-sortIcon>
+          <th pSortableColumn="appointmentDate">เวลานัดหมาย <p-sortIcon field="appointmentDate"></p-sortIcon>
           </th>
-          <th pSortableColumn="category">Category <p-sortIcon field="category"></p-sortIcon>
+          <th pSortableColumn="name">ชื่อคนไข้ <p-sortIcon field="name"></p-sortIcon>
           </th>
-          <th pSortableColumn="rating">Reviews <p-sortIcon field="rating"></p-sortIcon>
+          <th pSortableColumn="telephone">เบอร์โทร <p-sortIcon field="telephone"></p-sortIcon>
           </th>
-          <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon>
+          <th pSortableColumn="isReserve">สถานะ <p-sortIcon field="isReserve"></p-sortIcon>
           </th>
           <th></th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-product>
+      <ng-template pTemplate="body" let-appointment>
         <tr>
-          <td>{{product.doctorId}}</td>
-          <td>{{mapDateToThai(product.appointmentDate) }}</td>
-          <td>{{product.appointmentDate | date:'shortTime':'UTC+7':'th'}}</td>
-          <td>{{product.category}}</td>
-          <td>
-          </td>
-          <td><span
-              [class]="'product-badge status-' + (product.isReserve ? product.inventoryStatus.toLowerCase() : '')">{{product.isReserve ? "ถูกจอง" :"ว่าง"}}</span>
+          <td>{{appointment.doctorId}}</td>
+          <td>{{mapDateToThai(appointment.appointmentDate) }}</td>
+          <td>{{appointment.appointmentDate | date:'shortTime':'UTC+7':'th'}}</td>
+          <td>{{appointment.name}}</td>
+          <td>{{appointment.telephone}}</td>
+          <td><span>{{appointment.isReserve ? "ถูกจอง" :"ว่าง"}}</span>
           </td>
           <td>
-            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-              (click)="editProduct(product)"></button>
+            <button pButton pRipple icon="pi pi-bookmark" class="p-button-rounded p-button-success"
+              (click)="editAppointment(appointment)"></button>
             <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-              (click)="deleteProduct(product)"></button>
+              (click)="deleteAppointment(appointment)"></button>
           </td>
         </tr>
       </ng-template>
     </p-table>
   </div>
 
-  <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true"
+  <p-dialog [(visible)]="appointmentDialog" [style]="{width: '450px'}" header="จองนัดหมายเพื่อเข้าตวรจ" [modal]="true"
     styleClass="p-fluid">
     <ng-template pTemplate="content">
-      <img [src]="'assets/showcase/images/demo/product/' + appointment.image" [alt]="appointment.image"
-        class="product-image" *ngIf="appointment.image">
       <div class="field">
-        <label for="name">Name</label>
-        <input type="text" pInputText id="name" [(ngModel)]="appointment.name" required autofocus />
-        <small class="p-error" *ngIf="submitted && !appointment.name">Name is required.</small>
+        <label for="telephone">เบอร์โทรของคนไข้</label>
+        <input type="text" pInputText id="telephone" name="telephone" [(ngModel)]="appointment.telephone"
+          [required]="true" autofocus />
+        <small class="p-error mt-2" *ngIf="!submitted && !appointment.telephone">โปรดระบุเบอร์โทรของคนไข้</small>
       </div>
-      <div class="field">
-        <label for="description">Description</label>
-        <textarea id="description" pInputTextarea [(ngModel)]="appointment.description" required rows="3"
-          cols="20"></textarea>
-      </div>
-      <div class="field">
-        <label for="inventoryStatus">Inventory Status</label>
-        <p-dropdown [(ngModel)]="appointment.inventoryStatus" inputId="inventoryStatus" [options]="statuses"
-          placeholder="Select">
-          <ng-template let-option pTemplate="item">
-            <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
-          </ng-template>
-        </p-dropdown>
-      </div>
-
-      <div class="field">
-        <label class="mb-3">Category</label>
-        <div class="formgrid grid">
-          <div class="field-radiobutton col-6">
-            <p-radioButton id="category1" name="category" value="Accessories" [(ngModel)]="appointment.category">
-            </p-radioButton>
-            <label for="category1">Accessories</label>
-          </div>
-          <div class="field-radiobutton col-6">
-            <p-radioButton id="category2" name="category" value="Clothing" [(ngModel)]="appointment.category">
-            </p-radioButton>
-            <label for="category2">Clothing</label>
-          </div>
-          <div class="field-radiobutton col-6">
-            <p-radioButton id="category3" name="category" value="Electronics" [(ngModel)]="appointment.category">
-            </p-radioButton>
-            <label for="category3">Electronics</label>
-          </div>
-          <div class="field-radiobutton col-6">
-            <p-radioButton id="category4" name="category" value="Fitness" [(ngModel)]="appointment.category">
-            </p-radioButton>
-            <label for="category4">Fitness</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="formgrid grid">
+      <div class="formgrid grid mt-4">
         <div class="field col">
-          <label for="price">Price</label>
-          <p-inputNumber id="price" [(ngModel)]="appointment.price" mode="currency" currency="USD" locale="en-US">
+          <label for="price">รหัสพินโค้ด</label>
+          <p-inputNumber id="pinCode" [(ngModel)]="appointment.pinCode" name="pinCode" [required]="true">
           </p-inputNumber>
-        </div>
-        <div class="field col">
-          <label for="quantity">Quantity</label>
-          <p-inputNumber id="quantity" [(ngModel)]="appointment.quantity"></p-inputNumber>
+          <small class="p-error mt-2" *ngIf="!submitted && !appointment.pinCode">โปรดระบุรหัสพินโค้ด</small>
         </div>
       </div>
     </ng-template>
-  </p-dialog>
 
+    <ng-template pTemplate="footer">
+      <button pButton pRipple label="ยกเลิก" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+      <button pButton pRipple label="จอง" icon="pi pi-check" class="p-button-text" (click)="saveAppointment()"></button>
+    </ng-template>
+  </p-dialog>
   <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
 
 </p-panel>

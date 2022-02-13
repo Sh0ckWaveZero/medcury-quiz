@@ -20,7 +20,6 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import localeTh from '@angular/common/locales/th';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
-import { BackendModule } from '../@core/backend/backend.module';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
@@ -35,7 +34,9 @@ import { UserComponent } from './user/user.component';
 import { DoctorComponent } from './doctor/doctor.component';
 import { PagesRoutingModule } from './pages-routing.module';
 import { MatSliderModule } from '@angular/material/slider';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DialogModule } from 'primeng/dialog'
+import {OrganizationChartModule} from 'primeng/organizationchart';
 
 registerLocaleData(localeTh, 'th');
 
@@ -54,6 +55,8 @@ const primeNgModule = [
   CalendarModule,
   MultiSelectModule,
   InputTextModule,
+  DialogModule,
+  OrganizationChartModule,
 ]
 
 const materialModule = [
@@ -79,8 +82,8 @@ const materialModule = [
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     PagesRoutingModule,
-    BackendModule.forRoot(),
     ...materialModule,
     ...primeNgModule,
 
