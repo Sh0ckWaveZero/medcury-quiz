@@ -45,7 +45,6 @@ export class UserComponent implements OnInit {
   }
 
   search() {
-    console.log(this.doctorForm.value)
     this.appointmentService.getList(
       undefined,
       undefined,
