@@ -62,7 +62,6 @@ export class AppointmentService {
   }
 
   update(id: string, data: Appointment) {
-    console.log(data)
     return this.prisma.appointment.update({
       where: {
         id: id

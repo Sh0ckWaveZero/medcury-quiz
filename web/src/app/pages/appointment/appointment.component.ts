@@ -124,7 +124,6 @@ export class AppointmentComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.usertService.getWithFilter(appointment.telephone, appointment.pinCode).subscribe((user$: any) => {
-          console.log(!user$, user$)
           if (!user$) {
             this.messageService.add({ severity: 'error', summary: 'ผิดพลาด', detail: 'ไม่พบข้อมูลของคนไข้รายนี้', life: 3000 });
             return
