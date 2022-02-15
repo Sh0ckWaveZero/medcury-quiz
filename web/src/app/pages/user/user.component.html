@@ -8,7 +8,7 @@
             <mat-form-field appearance="outline" style=" margin-bottom: -1.25em">
               <mat-label>รายชื่อหมอ</mat-label>
               <mat-select [formControl]="doctorForm" multiple>
-                <mat-option *ngFor="let doctor of doctorList" [value]="doctor">{{doctor.name}}</mat-option>
+                <mat-option *ngFor="let doctor of doctorList" [value]="doctor.doctorId">{{doctor.name}}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>

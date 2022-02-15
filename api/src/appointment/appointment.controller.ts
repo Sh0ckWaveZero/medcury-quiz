@@ -14,6 +14,7 @@ export class AppointmentController {
 
   @Get()
   findAll(@Query() query: any) {
+    console.log(query);
     return this.appointmentService.findAll(query);
   }
 

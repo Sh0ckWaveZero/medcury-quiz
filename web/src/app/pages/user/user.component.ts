@@ -10,8 +10,8 @@ import { Doctor } from '../../@core/interfaces/doctor';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  dateRange: any
-  doctorForm!: FormControl
+
+  doctorForm = new FormControl();
   doctorList: Doctor[] = []
   appointmentList: any
   selectedAppointmentList: any
@@ -19,16 +19,13 @@ export class UserComponent implements OnInit {
   constructor(
     private appointmentService: AppointmentDatabase,
     private doctorService: DoctorDatabase,
-  ) {
-    this.doctorForm = new FormControl()
-  }
+  ) { }
 
   ngOnInit(): void {
     this.getDoctorInfo()
   }
 
   clear() {
-    this.dateRange = null
     this.doctorForm.reset()
   }
 
@@ -48,6 +45,7 @@ export class UserComponent implements OnInit {
   }
 
   search() {
+    console.log(this.doctorForm.value)
     this.appointmentService.getList(
       undefined,
       undefined,
