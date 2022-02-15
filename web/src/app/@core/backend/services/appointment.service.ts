@@ -31,4 +31,8 @@ export class AppointmentService extends Appointment {
   delete(id: number): Observable<boolean> {
     return this.api.delete(id);
   }
+
+  update(item: any): Observable<Appointment> {
+    return this.api.update(item);
+  }
 }

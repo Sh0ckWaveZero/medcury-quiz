@@ -43,4 +43,8 @@ export class AppointmentApi {
   add(item: any): Observable<any> {
     return this.api.post(this.apiController, item);
   }
+
+  update(item: any): Observable<any> {
+    return this.api.patch(`${this.apiController}`, item);
+  }
 }

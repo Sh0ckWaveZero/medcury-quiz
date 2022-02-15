@@ -91,10 +91,12 @@ export class AppointmentComponent implements OnInit {
     if (!this.submitted && !this.appointment.pinCode) return
 
     this.usertService.getWithFilter(this.appointment.telephone, this.appointment.pinCode).subscribe((user$: any) => {
-      if (user$) {
+
+      if (!user$) {
         this.messageService.add({ severity: 'error', summary: 'ผิดพลาด', detail: 'ไม่พบข้อมูลของคนไข้รายนี้', life: 3000 });
         return
       }
+
       this.appointment = { ...this.appointment }
       this.appointment.isReserve = true
       this.appointment.name = user$[0].name
@@ -122,8 +124,8 @@ export class AppointmentComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.usertService.getWithFilter(appointment.telephone, appointment.pinCode).subscribe((user$: any) => {
-
-          if (user$) {
+          console.log(!user$, user$)
+          if (!user$) {
             this.messageService.add({ severity: 'error', summary: 'ผิดพลาด', detail: 'ไม่พบข้อมูลของคนไข้รายนี้', life: 3000 });
             return
           }
